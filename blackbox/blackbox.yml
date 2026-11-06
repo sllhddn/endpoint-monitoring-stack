@@ -1,0 +1,11 @@
+modules:
+  http_monitoring:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_status_codes: [200]
+      preferred_ip_protocol: ip4
+      basic_auth:
+        username: monitor
+        password_file: /etc/blackbox/monitor_password

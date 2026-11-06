@@ -1,0 +1,68 @@
+[
+  {
+    "targets": [
+      "http://app-portal:8080/monitoring"
+    ],
+    "labels": {
+      "env": "production",
+      "module": "portal",
+      "node": "portal-1",
+      "hostname": "app-portal"
+    }
+  },
+  {
+    "targets": [
+      "http://app-payments:8080/monitoring"
+    ],
+    "labels": {
+      "env": "production",
+      "module": "payments",
+      "node": "payments-1",
+      "hostname": "app-payments"
+    }
+  },
+  {
+    "targets": [
+      "http://app-registry:8080/monitoring"
+    ],
+    "labels": {
+      "env": "production",
+      "module": "registry",
+      "node": "registry-1",
+      "hostname": "app-registry"
+    }
+  },
+  {
+    "targets": [
+      "http://app-reports:8080/monitoring"
+    ],
+    "labels": {
+      "env": "production",
+      "module": "reports",
+      "node": "reports-1",
+      "hostname": "app-reports"
+    }
+  },
+  {
+    "targets": [
+      "http://app-portal-stg:8080/monitoring"
+    ],
+    "labels": {
+      "env": "staging",
+      "module": "portal",
+      "node": "portal-stg-1",
+      "hostname": "app-portal-stg"
+    }
+  },
+  {
+    "targets": [
+      "http://app-unreachable:8080/monitoring"
+    ],
+    "labels": {
+      "env": "staging",
+      "module": "payments",
+      "node": "payments-stg-1",
+      "hostname": "app-unreachable"
+    }
+  }
+]

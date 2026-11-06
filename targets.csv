@@ -1,0 +1,7 @@
+env,module,node,hostname,url
+production,portal,portal-1,app-portal,http://app-portal:8080/monitoring
+production,payments,payments-1,app-payments,http://app-payments:8080/monitoring
+production,registry,registry-1,app-registry,http://app-registry:8080/monitoring
+production,reports,reports-1,app-reports,http://app-reports:8080/monitoring
+staging,portal,portal-stg-1,app-portal-stg,http://app-portal-stg:8080/monitoring
+staging,payments,payments-stg-1,app-unreachable,http://app-unreachable:8080/monitoring

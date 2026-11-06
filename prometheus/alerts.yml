@@ -1,0 +1,27 @@
+groups:
+  - name: app-availability
+    rules:
+      - alert: NodeDown
+        expr: probe_success{job="app_monitoring"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.node }} ({{ $labels.env }}/{{ $labels.module }}) is down"
+          description: "{{ $labels.instance }} has failed its health probe for more than 2 minutes."
+
+      - alert: NodeSlow
+        expr: probe_duration_seconds{job="app_monitoring"} > 1 and probe_success{job="app_monitoring"} == 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.node }} responds slowly ({{ $value | humanizeDuration }})"
+
+      - alert: ModuleFullyDown
+        expr: sum by (env, module) (probe_success{job="app_monitoring"}) == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Every node of {{ $labels.module }} in {{ $labels.env }} is down"
