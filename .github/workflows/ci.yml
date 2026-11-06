@@ -1,0 +1,33 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest && pytest -q
+      - name: promtool check config + rules
+        run: |
+          docker run --rm -v "$PWD/prometheus:/etc/prometheus" --entrypoint promtool \
+            prom/prometheus:v2.53.0 check config /etc/prometheus/prometheus.yml
+      - name: docker compose config is valid
+        run: docker compose --profile demo config -q
+  smoke:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose --profile demo up -d --build
+      - name: wait until every target has been probed
+        run: |
+          for i in $(seq 1 30); do
+            n=$(curl -s 'http://localhost:9090/api/v1/query?query=count(probe_success)' | jq -r '.data.result[0].value[1] // 0')
+            [ "$n" = "6" ] && echo "all 6 targets probed" && exit 0
+            sleep 5
+          done
+          echo "targets not probed in time"; exit 1
+      - if: always()
+        run: docker compose --profile demo down -v
